@@ -1,43 +1,45 @@
 package com.github.thedeepman.problems;
 
+import java.util.Stack;
+
 public class StringCalculator {
     public int calculate(String mathExpression) {
         int answer = 0;
-        char lastOperator;
+        char lastOperator = ' ';
         int currentDigit = 0;
-        // for (int i = 0; i < mathExpression.length(); i++) {
-        //     char a = mathExpression.charAt(i);
-        //     if (Character.isDigit(a)) {
-        //         currentDigit = currentDigit*10 + (int) a;
-        //     } else {
-        //         if (currentDigit > 0) {
-        //             if (lastOperator == '-') {
-        //                 currentDigit *= -1;
-        //             }
-        //             numberStack.push(currentDigit);
-        //             currentDigit = 0;
-        //         }
-        //         if (lastOperator != null) {
-        //             //calculate
-        //             int result = 0;
-        //             if (i == mathExpression.length()-1) {
-        //                 //instead of popping twice, pop once and currentDigit
-        //             }
-        //             if (lastOperator == '*') {
-        //                 result = numberStack.pop() * numberStack.pop();
-        //             } else if (lastOperator == '/') {
-        //                 result = numberStack.pop() / numberStack.pop();
-        //             }
-        //             numberStack.push(result);
-        //             lastOperator = null;
-        //         } else {
-        //             lastOperator = a;
-        //         }
-        //     }
-        // }
-        // for (int a : numberStack) {
-        //     answer += numberStack.pop();
-        // }
+        Stack<Integer> numberStack = new Stack<Integer>();
+        for (int i = 0; i < mathExpression.length(); i++) {
+            char a = mathExpression.charAt(i);
+            if (a != ' ') {
+                if (Character.isDigit(a)) {
+                    currentDigit = currentDigit * 10 + a - '0';
+                }
+                if (!Character.isDigit(a) || i >= mathExpression.length() - 1) {
+                    if (currentDigit > 0) {
+                        if (lastOperator == '-') {
+                            currentDigit *= -1;
+                        }
+                        numberStack.push(currentDigit);
+                        currentDigit = 0;
+                    }
+                    if (lastOperator == '*' || lastOperator == '/') {
+                        int result = 0;
+                        int num2 = numberStack.pop();
+                        int num1 = numberStack.pop();
+                        if (lastOperator == '*') {
+                            result = num1 * num2;
+                        } else if (lastOperator == '/') {
+                            result = num1 / num2;
+                        }
+                        numberStack.push(result);
+                    }
+                    lastOperator = a;
+                }
+            }
+        }
+        for (int a : numberStack) {
+            answer += a;
+        }
         return answer;
     }
 }
