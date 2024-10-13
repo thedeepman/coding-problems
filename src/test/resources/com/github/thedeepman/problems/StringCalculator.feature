@@ -10,3 +10,5 @@ Feature: Basic calculator with one string as input expression. Ignore spaces. PE
             | 3+2* 2    | 7      |
             | 1- 3*6/ 9 | -1     |
             | 2/2 + 3*4 | 13     |
+            | 32 - 16/2 | 24     |
+
